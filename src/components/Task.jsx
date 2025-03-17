@@ -1,10 +1,20 @@
-const Task = ({ task, deleteTask, completeTask }) => {
+const Task = ({ taskProp, deleteTask, completeTask }) => {
+
+    const handleDelete = () => {
+      deleteTask(taskProp.id)
+    }
+    const handleCompleted = () => {
+      completeTask(taskProp.id)
+    }
     return (
       <ul>
-        {task.map((task) => (
+        {taskProp.map((task) => (
           <li key={task.id}>
-            <p className={task.completed ? "completed" : ""} onClick={() => completeTask(task.id)}>{task.text}</p>
-            <button className="eliminateButton" onClick={() => deleteTask(task.id)}>Eliminar</button>
+            <p 
+            className={task.completed ? "completed" : ""} 
+            onClick={handleCompleted}>{task.text}
+            </p>
+            <button onClick={handleDelete}>Eliminar</button>
           </li>
         ))}
       </ul>

@@ -1,5 +1,5 @@
 import './App.css'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Task from './components/Task'
 import AddTaskForm from './components/AddTaskForm';
 
@@ -15,31 +15,28 @@ const App = () => {
   }
 
   const handleCompleted = (taskId) => {
-    if (task.completed === false) {
-      for (let task of tasks) {
-        if (task.id === taskId) {
-            setTasks(task.completed = true);
-        }
-    }
-    } else {
-      for (let task of tasks) {
-        if (task.id === taskId) {
-            setTasks(task.completed = false);
-        }
-    }
-    }
+    setTasks(tasks.map(task => 
+      task.id === taskId 
+      ? {...task, completed: !task.completed} //ejemplo de Toggle - interruptor para cambiar de true a false
+      : task)
+    )
   }
 
   const handleAdd = (input) => {
     const maxId = Math.max(...tasks.map(task => task.id));
-    setTasks(tasks.push({ id: maxId + 1, text: input , completed: false }))
+    const newTask = {
+      id: maxId + 1,
+      text: input,
+      completed: false
+    }
+    setTasks([...tasks, newTask])
   }
 
   return (
     <>
       <h1>Lista de tareas</h1>
       <AddTaskForm addTask={handleAdd}/>
-      <Task task={tasks} deleteTask={handleDelete} completeTask={handleCompleted}/> 
+      <Task taskProp={tasks} deleteTask={handleDelete} completeTask={handleCompleted}/> 
     </>
   );
 };
